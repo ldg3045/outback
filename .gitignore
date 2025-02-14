@@ -139,8 +139,17 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-#my_env
+# my_env ------------------------------
 outback_env/
+
+# hide key
+config.py
+# db
+*.sqlite3 
+# *(별은) 모든 sqlite3 파일을 포함한다.
+
+# -------------------------------------
+
 
 # Spyder project settings
 .spyderproject
