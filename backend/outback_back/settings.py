@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 from . import config
 import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.DJANGO_SECRET_KEY
-print("SECRET_KEY: ",SECRET_KEY)
+SECRET_KEY = config.DJANGO_SECRET_KEY # config.py에 SECRET_KEY 있음-----------------------
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,6 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party
+    'rest_framework',  
+    'rest_framework_simplejwt',  
+    # Add-app
+    'outback_main',
+    'outback_accounts',
+
 ]
 
 MIDDLEWARE = [
@@ -82,6 +90,22 @@ DATABASES = {
     }
 }
 
+# Add_Custom_user_model
+AUTH_USER_MODEL = 'outback_accounts.User'
+# Add_simple_JWT
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+}
+
+# Add_Token_expiration_date
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30), # Access token 
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1), # Refresh token
+    "ROTATE_REFRESH_TOKENS": True, # New Access Token, Returns Refresh Token
+    "BLACKLIST_AFTER_ROTATION": True, # 토큰 재사용 방지
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
