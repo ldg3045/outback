@@ -4,6 +4,7 @@ from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -17,28 +18,27 @@ class SignupView(APIView):
 
 
 
-class User(APIView):
+class UserDetailView(APIView):
 
-    def get_object(self, pk): 
-        return get_object_or_404(User, pk=pk) 
+    permission_classes = [IsAuthenticated] # 유저가 아니면 Article 기능 접근 제한
+
+    def get_object(self, username):  # pk -> username
+        return get_object_or_404(User, username=username)  # pk=pk -> username=username
     
-    def get(self, request, pk):
-        accounts = self.get_object(pk) 
-        serializer = UserSerializer(accounts) #
+    def get(self, request, username):  # pk -> username
+        user = self.get_object(username)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
     
-
-    def put(self, request, pk):
-        accounts = self.get_object(pk) 
-        serializer = UserSerializer(accounts, data=request.data, partial=True) 
-        if serializer.is_valid(raise_exception=True):                      
+    def put(self, request, username):  # pk -> username
+        user = self.get_object(username)
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-
-    def delete(self, request, pk):
-        accounts = self.get_object(pk)
-        accounts.delete()
+    
+    def delete(self, request, username):  # pk -> username
+        user = self.get_object(username)
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
+    

@@ -11,5 +11,5 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"), # 토큰 연장을 위한 리프레시 토큰 발급
     # 회원 기능
     path("signup/", views.SignupView.as_view(), name="signup"),
-    path("user/", views.SignupView.as_view(), name="user"),
+    path('<str:username>/', views.UserDetailView.as_view(), name='user_detail'),
 ]
