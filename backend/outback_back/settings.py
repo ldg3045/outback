@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',  
     'rest_framework_simplejwt',  
     # Add-app
-    'outback_main',
+    'outback_products',
     'outback_accounts',
 
 ]
@@ -105,6 +105,9 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1), # Refresh token
     "ROTATE_REFRESH_TOKENS": True, # New Access Token, Returns Refresh Token
     "BLACKLIST_AFTER_ROTATION": True, # 토큰 재사용 방지
+    # username 프라이머리 키 필드 생성
+    "USER_ID_FIELD": "username",  # User 모델의 프라이머리 키 필드
+    "USER_ID_CLAIM": "username",  # 토큰에 저장될 사용자 식별자
 }
 
 # Password validation
@@ -129,9 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
